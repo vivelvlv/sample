@@ -1,0 +1,163 @@
+@media print {
+    body {
+        color: #000;
+        background: #fff;
+    }
+
+    h1 {
+        color: #fff;
+        background: none;
+    }
+
+    .table {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .table > thead > tr > th,
+    .table > tbody > tr > th,
+    .table > tfoot > tr > th,
+    .table > thead > tr > td,
+    .table > tbody > tr > td,
+    .table > tfoot > tr > td {
+        padding: 8px;
+        line-height: 1.42857143;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+    }
+
+    .table > thead > tr > th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #ddd;
+    }
+
+    .table > caption + thead > tr:first-child > th,
+    .table > colgroup + thead > tr:first-child > th,
+    .table > thead:first-child > tr:first-child > th,
+    .table > caption + thead > tr:first-child > td,
+    .table > colgroup + thead > tr:first-child > td,
+    .table > thead:first-child > tr:first-child > td {
+        border-top: 0;
+    }
+
+    .table > tbody + tbody {
+        border-top: 2px solid #ddd;
+    }
+
+    .table .table {
+        background-color: #fff;
+    }
+
+    .table-condensed > thead > tr > th,
+    .table-condensed > tbody > tr > th,
+    .table-condensed > tfoot > tr > th,
+    .table-condensed > thead > tr > td,
+    .table-condensed > tbody > tr > td,
+    .table-condensed > tfoot > tr > td {
+        padding: 5px;
+    }
+
+    .table-bordered {
+        border: 1px solid #ddd;
+    }
+
+    .table-bordered > thead > tr > th,
+    .table-bordered > tbody > tr > th,
+    .table-bordered > tfoot > tr > th,
+    .table-bordered > thead > tr > td,
+    .table-bordered > tbody > tr > td,
+    .table-bordered > tfoot > tr > td {
+        border: 1px solid #ddd;
+    }
+
+    .table-bordered > thead > tr > th,
+    .table-bordered > thead > tr > td {
+        border-bottom-width: 2px;
+    }
+
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f9f9f9;
+    }
+
+    .table-hover > tbody > tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    #printContent {
+        font-size: 0.1cm;
+    }
+
+    nav, aside {
+        display: none;
+    }
+
+    body, article {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .should_remove {
+        display: none;
+        height: 0px;
+        width: 0px;
+    }
+
+    @page {
+        size: A4;
+        margin: 0.8cm;
+    }
+
+    article a {
+        font-weight: bolder;
+        text-decoration: none;
+    }
+
+    article a[href^=http]:after {
+        content: " <" attr(href) "> ";
+    }
+
+    @page :right {
+
+        @bottom-left {
+
+            margin: 5pt 0 30pt 0;
+
+            border-top: .25pt solid #666;
+
+            content: "new";
+
+            font-size: 9pt;
+
+            color: #333;
+
+        }
+
+        @bottom-right {
+
+            margin: 5pt 0 30pt 0;
+
+            border-top: .25pt solid #666;
+
+            content: counter(page);
+
+            font-size: 9pt;
+
+        }
+
+        @top-right {
+
+            content: string(doctitle);
+
+            margin: 30pt 0 10pt 0;
+
+            font-size: 9pt;
+
+            color: #333;
+
+        }
+
+    }
+
+}

@@ -1,0 +1,23 @@
+{
+    "name": "karnbrockgmbh/yii2-modal-ajax",
+    "description": "A wrapper around Yii2 Bootstrap Modal for using an ActiveForm via AJAX inside",
+    "keywords": [
+        "yii2",
+        "bootstrap",
+        "modal"
+    ],
+    "homepage": "https://github.com/karnbrockgmbh/yii2-modal-ajax",
+    "type": "yii2-extension",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Karnbrock Gmbh",
+            "homepage": "http://karnbrock.biz"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "karnbrockgmbh\\modal\\": ""
+        }
+    }
+}
