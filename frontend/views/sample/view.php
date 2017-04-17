@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'weight',
-                'value' => $model->weight . ' ' . $model->sampleUnit->name
+                'value' => $model->weight
             ],
             [
                 'attribute' => 'status',

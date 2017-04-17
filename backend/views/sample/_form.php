@@ -22,7 +22,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'weight')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'unit')->textInput() ?>
+<!--    --><?//= $form->field($model, 'unit')->textInput() ?>
 
 <!--    --><?//= $form->field($model, 'type')->textInput() ?>
 

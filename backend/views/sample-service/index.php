@@ -186,7 +186,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'panel' => [
                     'heading' => '<h3 class="panel-title"><i class="fa fa-flask"></i>  ' . Yii::t('backend', 'Service') . '</h3>',
                     'before' => '<div style="padding-top: 7px;"><em>*' . Yii::t('backend', 'Show All  Services') . '</em></div>',
-
+                    'after' => Html::button(Yii::t('backend', 'Print All'), ['class' => 'btn btn-success pull-right', 'id' => 'print-all'])
                 ],
                 'toolbar' => [
                     ['content' => '{dynagrid}'],
@@ -214,6 +214,8 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
 <?php
+
+$urlPrintAll = Url::to(['sample-service/print-all']);
 $script = <<< JS
 
 $('#sample_service_index_grid_dynagrid-pjax').on('click','a[name="modalView"]',function(e){
@@ -222,6 +224,15 @@ $('#sample_service_index_grid_dynagrid-pjax').on('click','a[name="modalView"]',f
                    .load($(this).attr('href'));
         return false;
 });
+
+$('#sample_service_index_grid_dynagrid-pjax').on('click','#print-all',function(e){
+       var url = "{$urlPrintAll}";
+       window.location.href = url;
+});
+
+
+
+
 
 
 // 显示申诉列表

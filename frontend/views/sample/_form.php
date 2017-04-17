@@ -22,14 +22,14 @@ use common\models\SampleType;
 
     <?= $form->field($model, 'weight')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'unit')->widget(Select2::classname(), [
-        'language' => Yii::$app->language,
-        'data' => SampleUnit::sampleUnitItems(),
-        'options' => ['placeholder' => Yii::t('frontend', 'Please Select ...')],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ]); ?>
+<!--    --><?//= $form->field($model, 'unit')->widget(Select2::classname(), [
+//        'language' => Yii::$app->language,
+//        'data' => SampleUnit::sampleUnitItems(),
+//        'options' => ['placeholder' => Yii::t('frontend', 'Please Select ...')],
+//        'pluginOptions' => [
+//            'allowClear' => true
+//        ],
+//    ]); ?>
 
     <?= $form->field($model, 'document')->widget(FileInput::classname(), [
         'options' => ['multiple' => false],

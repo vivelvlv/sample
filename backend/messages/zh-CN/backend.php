@@ -162,4 +162,5 @@ return [
     'Weight' => '样品量',
     'Work Area' => '工作区域',
     'comment' => '备注',
+    'Print All' => '打印全部',
 ];

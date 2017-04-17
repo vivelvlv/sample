@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'user_id',
             'serial_number',
             'weight',
-            'unit',
+//            'unit',
             'type',
             'comment',
             'status',

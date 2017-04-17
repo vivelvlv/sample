@@ -113,12 +113,12 @@ class SampleServiceSearch extends SampleService
 
         if (!is_null($this->created_at) && strpos($this->created_at, ' - ') !== false) {
             list($start_date, $end_date) = explode(' - ', $this->created_at);
-            $query->andFilterWhere(['between', SampleService::tableName() . '.created_at', strtotime($start_date), strtotime($end_date)]);
+            $query->andFilterWhere(['between', SampleService::tableName() . '.created_at', strtotime($start_date), strtotime($end_date) + 24 * 60 * 60]);
         }
 
         if (!is_null($this->received_at) && strpos($this->received_at, ' - ') !== false) {
             list($start_date, $end_date) = explode(' - ', $this->received_at);
-            $query->andFilterWhere(['between', SampleService::tableName() . '.received_at', strtotime($start_date), strtotime($end_date)]);
+            $query->andFilterWhere(['between', SampleService::tableName() . '.received_at', strtotime($start_date), strtotime($end_date) + 24 * 60 * 60]);
         }
         return $dataProvider;
     }

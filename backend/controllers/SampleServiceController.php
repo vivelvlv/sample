@@ -425,6 +425,47 @@ class SampleServiceController extends BaseController
         echo $data;
     }
 
+    public function actionPrintAll()
+    {
+        $exec = new Excel();
+        $data = [array("时间", "样品名", "测试项", "状态", "客户")];
+        $models = SampleService::find()->all();
+        foreach ($models as $model) {
+            $time = date("Y/m/d H:i", $model->created_at);
+            $sample = $model->getSample();
+            $sample_name = "";
+            $object = null;
+            if (isset($sample)) {
+                $object = $sample->one();
+                if (isset($object)) {
+                    $sample_name = $object->name;
+                }
+            }
+            $service = $model->getService();
+            $serivce_name = "";
+            $object = null;
+            if (isset($service)) {
+                $object = $service->one();
+                if (isset($object)) {
+                    $serivce_name = $object->name;
+                }
+            }
+            $status = $model->getStatusText();
+            $user = $model->getUser();
+
+            $user_name = "";
+            if (isset($user)) {
+                $object = $user->one();
+                if (isset($object)) {
+                    $user_name = $object->user_name;
+                }
+            }
+            array_push($data, [$time, $sample_name, $serivce_name, $status, $user_name]);
+        }
+
+        $exec->download($data, time() . "");
+    }
+
 
     public function actionCompletePassMultiple()
     {
@@ -690,3 +731,64 @@ class SampleServiceController extends BaseController
     }
 
 }
+
+/**
+ * 生成excel文件操作
+ *
+ * @author wesley wu
+ * @date 2013.12.9
+ */
+class Excel
+{
+
+    private $limit = 10000;
+
+    public function download($data, $fileName)
+    {
+        $fileName = $this->_charset($fileName);
+        header("Content-Type: application/vnd.ms-excel; charset=gbk");
+        header("Content-Disposition: inline; filename=\"" . $fileName . ".xls\"");
+        echo "<?xml version=\"1.0\" encoding=\"gbk\"?>\n
+            <Workbook xmlns=\"urn:schemas-microsoft-com:office:spreadsheet\"
+            xmlns:x=\"urn:schemas-microsoft-com:office:excel\"
+            xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\"
+            xmlns:html=\"http://www.w3.org/TR/REC-html40\">";
+        echo "\n<Worksheet ss:Name=\"" . $fileName . "\">\n<Table>\n";
+        $guard = 0;
+        foreach ($data as $v) {
+            $guard++;
+            if ($guard == $this->limit) {
+                ob_flush();
+                flush();
+                $guard = 0;
+            }
+            echo $this->_addRow($this->_charset($v));
+        }
+        echo "</Table>\n</Worksheet>\n</Workbook>";
+    }
+
+    private function _addRow($row)
+    {
+        $cells = "";
+        foreach ($row as $k => $v) {
+            $cells .= "<Cell><Data ss:Type=\"String\">" . $v . "</Data></Cell>\n";
+        }
+        return "<Row>\n" . $cells . "</Row>\n";
+    }
+
+    private function _charset($data)
+    {
+        if (!$data) {
+            return false;
+        }
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                $data[$k] = $this->_charset($v);
+            }
+            return $data;
+        }
+        return iconv('utf-8', 'gbk', $data);
+    }
+
+}
+

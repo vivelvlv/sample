@@ -93,7 +93,7 @@ use common\models\SampleType;
         [
             'attribute' => 'weight',
             'value' => function ($model, $key, $index, $column) {
-                return $model->weight . ' ' . $model->sampleUnit->name;
+                return $model->weight;
             },
             'hAlign' => 'left',
             'vAlign' => 'middle',

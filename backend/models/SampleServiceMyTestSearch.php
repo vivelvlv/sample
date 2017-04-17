@@ -27,7 +27,7 @@ class SampleServiceMyTestSearch extends SampleService
     {
         return [
             [['user_id', 'service_id', 'action_user', 'status'], 'integer'],
-            [['barcodes', 'deliver_barcodes', 'fetch_barcodes','sample_id', 'test_sheet_id','received_at'], 'safe'],
+            [['barcodes', 'deliver_barcodes', 'fetch_barcodes', 'test_sheet_id','received_at'], 'safe'],
         ];
     }
 

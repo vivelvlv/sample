@@ -145,6 +145,12 @@ Modal::end();
             'width' => '10%',
         ],
         [
+            'attribute' => 'user_id',
+            'vAlign' => 'middle',
+            'value' => 'user.user_name',
+            'width' => '10%'
+        ],
+        [
             'attribute' => Yii::t('backend', 'Sample Comment'),
             'value' => 'sample.comment',
             'vAlign' => 'middle',
@@ -199,7 +205,7 @@ Modal::end();
                 }
             ],
             'vAlign' => 'middle',
-            'width' => '140px',
+            'width' => '100px',
             'order' => DynaGrid::ORDER_FIX_RIGHT
         ],
     ];

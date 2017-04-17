@@ -283,8 +283,9 @@ class NewTestSheetController extends BaseController
                 $modelSample->sample_services = implode(",", $names);
                 $modelSample->sample_services_hidden = implode(",", $ids);
 
-                // $sampleUnit = $modelSample->getSampleUnit()->one();
-                // $modelSample->unit_hidden = $sampleUnit->name;
+//                $sampleUnit = $modelSample->getSampleUnit()->one();
+//                $modelSample->unit_hidden = $sampleUnit->name;
+                $modelSample->type_hidden = $modelSample->getSampleType()->one()->name;
             }
 
             return $this->render('update', [
@@ -348,7 +349,7 @@ class NewTestSheetController extends BaseController
                 $printItem->id = $item->id;
                 $printItem->name = $item->name;
                 $printItem->serial_number = $item->serial_number;
-                $printItem->weight = $item->weight; //. "" . $item->sampleUnit->name;
+                $printItem->weight = $item->weight ;
                 $printItem->comment = $item->comment;
 
                 $servicesContentList = "";
@@ -413,7 +414,7 @@ class NewTestSheetController extends BaseController
                 $printItem->id = $item->id;
                 $printItem->name = $item->name;
                 $printItem->serial_number = $item->serial_number;
-                $printItem->weight = $item->weight; //. "" . $item->sampleUnit->name;
+                $printItem->weight = $item->weight;
                 $printItem->comment = $item->comment;
 
                 // TODO 性能不行?
