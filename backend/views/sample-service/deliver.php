@@ -85,7 +85,11 @@ $gridColumns = [
     [
         'label' => Yii::t('backend', 'Weight'),
         'value' => function ($model, $key, $index, $column) {
-            return $model->sample->weight;
+            if (isset($model) && isset($model->sample) && isset($model->sample->weight)) {
+                return $model->sample->weight;
+            } else {
+                return 0;
+            }
         },
         'vAlign' => 'middle',
         'width' => '8%',
