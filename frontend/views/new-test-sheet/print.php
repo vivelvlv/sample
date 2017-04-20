@@ -129,8 +129,7 @@ $optionsArray = array(
 
         <table class="table table-bordered" width="100%">
             <tr style="text-align: center">
-                <td>样品名称</td>
-                <td>样品编号</td>
+                <td>样品名称/编号</td>
                 <td colspan="2">检测项目</td>
                 <td>样品量(mg)</td>
                 <td colspan="2">备注</td>
@@ -140,7 +139,6 @@ $optionsArray = array(
                 <?php $i++; ?>
                 <tr>
                     <td><?= $item->name ?></td>
-                    <td><?= $item->serial_number ?></td>
                     <td colspan="2"><?= $item->serviceList ?></td>
                     <td><?= $item->weight ?></td>
                     <td colspan="2"><?= $item->comment ?></td>
@@ -149,7 +147,6 @@ $optionsArray = array(
 
             <?php for (; $i < 8; $i++): ?>
                 <tr>
-                    <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td colspan="2">&nbsp;</td>
                     <td>&nbsp;</td>

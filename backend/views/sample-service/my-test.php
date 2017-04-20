@@ -71,7 +71,7 @@ Modal::end();
             'attribute' => 'sample_id',
             'value' => function ($model, $key, $index, $widget) {
                 $sample = $model->getSample()->one();
-                if (isset($sample->document)) {
+                if (isset($sample->document) && strlen($sample->document) > 1) {
                     $options = [
                         'title' => Yii::t('backend', 'Download File'),
                         'aria-label' => Yii::t('backend', 'Download File'),
