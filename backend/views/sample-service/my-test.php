@@ -151,8 +151,15 @@ Modal::end();
         [
             'attribute' => 'user_id',
             'vAlign' => 'middle',
+            'width' => '10%',
             'value' => 'user.user_name',
-            'width' => '10%'
+            'filterType' => GridView::FILTER_SELECT2,
+            'filter' => User::userAttributeLabel(),
+            'filterWidgetOptions' => [
+                'pluginOptions' => ['allowClear' => true],
+            ],
+            'filterInputOptions' => ['placeholder' => ' '],
+            'format' => 'raw',
         ],
         [
             'attribute' => Yii::t('backend', 'Sample Comment'),
