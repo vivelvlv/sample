@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use common\models\Sample;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -19,6 +20,7 @@ class SampleServiceSearch extends SampleService
     {
         return [
             [['user_id', 'action_user', 'completed_at', 'status'], 'integer'],
+            [['sample_id'], 'safe'],
             [['created_at'], 'safe'],
         ];
     }
@@ -76,6 +78,18 @@ class SampleServiceSearch extends SampleService
         if (!is_null($this->created_at) && strpos($this->created_at, ' - ') !== false) {
             list($start_date, $end_date) = explode(' - ', $this->created_at);
             $query->andFilterWhere(['between', SampleService::tableName() . '.created_at', strtotime($start_date), strtotime($end_date) + 24 * 60 * 60]);
+        }
+
+        if (isset($this->sample_id)) {
+            $sampleList = Sample::find()->select(['id'])->andFilterWhere(['like', "name", $this->sample_id])->
+            orFilterWhere(['like', "serial_number", $this->sample_id])->asArray()->all();
+            $arrayList = [];
+            foreach ($sampleList as $item) {
+                array_push($arrayList, $item['id']);
+            }
+            if (count($arrayList) > 0) {
+                $query->andFilterWhere(['in', 'sample_id', $arrayList]);
+            }
         }
 
         $query->andFilterWhere(['like', 'document', $this->document]);
