@@ -436,7 +436,7 @@ class SampleServiceController extends BaseController
                 $object = $sample->one();
                 if (isset($object)) {
                     $sample_name = $object->name;
-                    $note = $object->comment;
+                    $note = "empty";
                 }
             }
             $service = $model->getService();
