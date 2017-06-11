@@ -27,7 +27,8 @@ class SampleServiceSearch extends SampleService
     {
         return [
             [['user_id', 'service_id', 'action_user', 'status'], 'integer'],
-            [['barcodes', 'deliver_barcodes', 'fetch_barcodes', 'test_sheet_id', 'created_at','received_at'], 'safe'],
+            [['sample_id'], 'safe'],
+            [['barcodes', 'deliver_barcodes', 'fetch_barcodes', 'test_sheet_id', 'created_at', 'received_at'], 'safe'],
         ];
     }
 
@@ -38,11 +39,6 @@ class SampleServiceSearch extends SampleService
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
-    }
-
-    function IsNullOrEmptyString($str)
-    {
-        return (!isset($str) || trim($str) === '');
     }
 
     /**
@@ -60,10 +56,10 @@ class SampleServiceSearch extends SampleService
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=>[
-                 'defaultOrder'=>[
-                    'created_at'=>SORT_DESC,
-                 ]
+            'sort' => [
+                'defaultOrder' => [
+                    'created_at' => SORT_DESC,
+                ]
             ]
         ]);
 
@@ -108,8 +104,19 @@ class SampleServiceSearch extends SampleService
             }
         }
 
-        $query->andFilterWhere(['like', Sample::tableName() . '.name', $this->sample_id]);
         $query->andFilterWhere(['like', TestSheet::tableName() . '.name', $this->test_sheet_id]);
+
+        if (isset($this->sample_id)) {
+            $sampleList = Sample::find()->select(['id'])->andFilterWhere(['like', "name", $this->sample_id])->
+            orFilterWhere(['like', "serial_number", $this->sample_id])->asArray()->all();
+            $arrayList = [];
+            foreach ($sampleList as $item) {
+                array_push($arrayList, $item['id']);
+            }
+            if (count($arrayList) > 0) {
+                $query->andFilterWhere(['in', 'sample_id', $arrayList]);
+            }
+        }
 
         if (!is_null($this->created_at) && strpos($this->created_at, ' - ') !== false) {
             list($start_date, $end_date) = explode(' - ', $this->created_at);
@@ -121,5 +128,10 @@ class SampleServiceSearch extends SampleService
             $query->andFilterWhere(['between', SampleService::tableName() . '.received_at', strtotime($start_date), strtotime($end_date) + 24 * 60 * 60]);
         }
         return $dataProvider;
+    }
+
+    function IsNullOrEmptyString($str)
+    {
+        return (!isset($str) || trim($str) === '');
     }
 }

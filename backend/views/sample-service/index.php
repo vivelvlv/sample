@@ -75,7 +75,15 @@ $this->params['breadcrumbs'][] = $this->title;
 //            ],
             [
                 'attribute' => 'service_id',
-                'value' => 'service.name'
+                'vAlign' => 'middle',
+                'value' => 'service.name',
+                'filterType' => GridView::FILTER_SELECT2,
+                'filter' => Service::serviceItems(),
+                'filterWidgetOptions' => [
+                    'pluginOptions' => ['allowClear' => true],
+                ],
+                'filterInputOptions' => ['placeholder' => ' '],
+                'format' => 'raw',
             ],
             [
                 'attribute' => 'status',
