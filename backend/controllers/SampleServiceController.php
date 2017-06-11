@@ -416,12 +416,12 @@ class SampleServiceController extends BaseController
 
     public function actionPrintAll($regin)
     {
-        echo($regin);
-        die(0);
         $exec = new Excel();
         $data = [array("时间", "样品名", "测试项", "状态", "客户", "样品备注")];
         if (isset($regin) && strlen($regin) > 0 && strpos($regin, ' - ') !== false) {
             list($start_date, $end_date) = explode(' - ', $regin);
+            echo "start_date : " + $start_date;
+            echo "end_date : " + $end_date;
             $models = SampleService::find()->where(['between', SampleService::tableName() . ".created_at",
                 strtotime($start_date),
                 strtotime($end_date) + 24 * 60 * 60])->all();
