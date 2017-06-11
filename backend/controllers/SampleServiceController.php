@@ -416,6 +416,8 @@ class SampleServiceController extends BaseController
 
     public function actionPrintAll($regin)
     {
+        echo($regin);
+        die(0);
         $exec = new Excel();
         $data = [array("时间", "样品名", "测试项", "状态", "客户", "样品备注")];
         if (isset($regin) && strlen($regin) > 0 && strpos($regin, ' - ') !== false) {
