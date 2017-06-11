@@ -431,7 +431,7 @@ class SampleServiceController extends BaseController
             $time = date("Y/m/d H:i", $model->created_at);
             $sample = $model->getSample();
             $sample_name = "";
-            $note = "";
+            $note = " ";
             $object = null;
             if (isset($sample)) {
                 $object = $sample->one();
@@ -439,7 +439,7 @@ class SampleServiceController extends BaseController
                     $sample_name = $object->name;
                     $note = $object->comment;
                     if (empty($note) || !isset($note)) {
-                        $note = "";
+                        $note = " ";
                     }
                 }
             }
