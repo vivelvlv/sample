@@ -765,6 +765,11 @@ class Excel
 
     public function download($data, $fileName)
     {
+
+        var_dump($data);
+        die(0);
+
+
         $fileName = $this->_charset($fileName);
         header("Content-Type: application/vnd.ms-excel; charset=gbk");
         header("Content-Disposition: inline; filename=\"" . $fileName . ".xls\"");
