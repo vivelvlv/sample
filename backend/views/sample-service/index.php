@@ -227,7 +227,9 @@ $('#sample_service_index_grid_dynagrid-pjax').on('click','a[name="modalView"]',f
 
 $('#sample_service_index_grid_dynagrid-pjax').on('click','#print-all',function(e){
        var url = "{$urlPrintAll}";
-       window.location.href = url;
+       var content = $("#sampleservicesearch-created_at").val();
+       content = encodeURIComponent(content);
+       window.location.href = url+"&regin="+content;
 });
 
 

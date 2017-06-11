@@ -162,5 +162,5 @@ return [
     'Weight' => '样品量',
     'Work Area' => '工作区域',
     'comment' => '备注',
-    'Print All' => '导出全部',
+    'Print All' => '导出全部(支持选择时间段导出)',
 ];

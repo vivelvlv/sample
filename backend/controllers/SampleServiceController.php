@@ -83,6 +83,22 @@ class SampleServiceController extends BaseController
     }
 
     /**
+     * Finds the SampleService model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return SampleService the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = SampleService::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
      * Creates a new SampleService model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -140,6 +156,8 @@ class SampleServiceController extends BaseController
         ]);
     }
 
+    // 待确认的,正常回库的列表
+
     public function actionDeliver()
     {
         $searchModel = new SampleServiceSearch();
@@ -152,7 +170,8 @@ class SampleServiceController extends BaseController
         ]);
     }
 
-    // 待确认的,正常回库的列表
+    // 待确认的,异常回库列表
+
     public function actionNormalBack()
     {
         $searchModel = new SampleServiceSearch();
@@ -165,7 +184,8 @@ class SampleServiceController extends BaseController
         ]);
     }
 
-    // 待确认的,异常回库列表
+    // 异常库列表
+
     public function actionExceptionBack()
     {
         $searchModel = new SampleServiceSearch();
@@ -173,19 +193,6 @@ class SampleServiceController extends BaseController
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('normal-back', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    // 异常库列表
-    public function actionExceptionList()
-    {
-        $searchModel = new SampleServiceSearch();
-        $searchModel->status = SampleService::SAMPLESERVICE_STATUS_EXCEPTION_BACK;
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('exception-list', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -260,22 +267,6 @@ class SampleServiceController extends BaseController
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the SampleService model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return SampleService the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = SampleService::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
     public function actionReceivePassMultiple()
     {
         $pk = Yii::$app->request->post('pk');
@@ -311,7 +302,6 @@ class SampleServiceController extends BaseController
         }
         return 1;
     }
-
 
     public function actionReceiveDenyMultiple()
     {
@@ -409,7 +399,6 @@ class SampleServiceController extends BaseController
         $this->export_csv($filename, $barcode_str); //导出
     }
 
-
     private function export_csv($filename, $data)
     {
         $data = mb_convert_encoding($data, "gb2312", "UTF-8");
@@ -425,20 +414,29 @@ class SampleServiceController extends BaseController
         echo $data;
     }
 
-    public function actionPrintAll()
+    public function actionPrintAll($regin)
     {
         $exec = new Excel();
-        $data = [array("时间", "样品名", "测试项", "状态", "客户")];
-        $models = SampleService::find()->all();
+        $data = [array("时间", "样品名", "测试项", "状态", "客户", "样品备注")];
+        if (isset($regin) && strlen($regin) > 0 && strpos($regin, ' - ') !== false) {
+            list($start_date, $end_date) = explode(' - ', $regin);
+            $models = SampleService::find()->where(['between', SampleService::tableName() . ".created_at",
+                strtotime($start_date),
+                strtotime($end_date) + 24 * 60 * 60])->all();
+        } else {
+            $models = SampleService::find()->all();
+        }
         foreach ($models as $model) {
             $time = date("Y/m/d H:i", $model->created_at);
             $sample = $model->getSample();
             $sample_name = "";
+            $note = "";
             $object = null;
             if (isset($sample)) {
                 $object = $sample->one();
                 if (isset($object)) {
                     $sample_name = $object->name;
+                    $note = $object->comment;
                 }
             }
             $service = $model->getService();
@@ -460,12 +458,13 @@ class SampleServiceController extends BaseController
                     $user_name = $object->user_name;
                 }
             }
-            array_push($data, [$time, $sample_name, $serivce_name, $status, $user_name]);
+
+
+            array_push($data, [$time, $sample_name, $serivce_name, $status, $user_name, $note]);
         }
 
         $exec->download($data, time() . "");
     }
-
 
     public function actionCompletePassMultiple()
     {
@@ -501,7 +500,6 @@ class SampleServiceController extends BaseController
         return 1;
     }
 
-    // 分析员->发起->正常回库
     public function actionNormalBackMultiple()
     {
         $pk = Yii::$app->request->post('pk');
@@ -534,7 +532,8 @@ class SampleServiceController extends BaseController
         return 1;
     }
 
-    // 分析员->发起->异常回库
+    // 分析员->发起->正常回库
+
     public function actionExceptionBackMultiple()
     {
         $pk = Yii::$app->request->post('pk');
@@ -568,7 +567,8 @@ class SampleServiceController extends BaseController
         return 1;
     }
 
-    // 样品管理员->接收->异常退库
+    // 分析员->发起->异常回库
+
     public function actionExceptionBackPassMultiple()
     {
         $pk = Yii::$app->request->post('pk');
@@ -593,7 +593,8 @@ class SampleServiceController extends BaseController
 
     }
 
-    // 样品管理员->接收->正常退库
+    // 样品管理员->接收->异常退库
+
     public function actionNormalBackPassMultiple()
     {
         $pk = Yii::$app->request->post('pk');
@@ -616,7 +617,8 @@ class SampleServiceController extends BaseController
         return 1;
     }
 
-    // 异常到正常
+    // 样品管理员->接收->正常退库
+
     public function actionExceptionToNormal($id)
     {
         $model = SampleService::findOne(['id' => $id]);
@@ -631,6 +633,20 @@ class SampleServiceController extends BaseController
 
         $this->actionExceptionList();
 
+    }
+
+    // 异常到正常
+
+    public function actionExceptionList()
+    {
+        $searchModel = new SampleServiceSearch();
+        $searchModel->status = SampleService::SAMPLESERVICE_STATUS_EXCEPTION_BACK;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('exception-list', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     public function actionStuffFetching()
@@ -673,26 +689,6 @@ class SampleServiceController extends BaseController
         return 1;
     }
 
-    public function actionComplainlist($id)
-    {
-        $complaintList = new ComplaintSearch();
-        $complaintList->sample_service_id = $id;
-        $dataProvider = $complaintList->search(Yii::$app->request->queryParams);
-        if (Yii::$app->request->isAjax) {
-            return $this->renderAjax('complain-list', [
-                'searchModel' => $complaintList,
-                'dataProvider' => $dataProvider,
-            ]);
-        } else {
-            return $this->render('complain-list', [
-                'searchModel' => $complaintList,
-                'dataProvider' => $dataProvider,
-            ]);
-        }
-
-
-    }
-
     public function actionUpdateComplain($id)
     {
         $model = Complaint::findOne($id);
@@ -727,6 +723,26 @@ class SampleServiceController extends BaseController
 
         $this->layout = 'simple_layout';
         return $this->render('_form_complain_update', ['model' => $model]);
+
+    }
+
+    public function actionComplainlist($id)
+    {
+        $complaintList = new ComplaintSearch();
+        $complaintList->sample_service_id = $id;
+        $dataProvider = $complaintList->search(Yii::$app->request->queryParams);
+        if (Yii::$app->request->isAjax) {
+            return $this->renderAjax('complain-list', [
+                'searchModel' => $complaintList,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else {
+            return $this->render('complain-list', [
+                'searchModel' => $complaintList,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+
 
     }
 
@@ -767,15 +783,6 @@ class Excel
         echo "</Table>\n</Worksheet>\n</Workbook>";
     }
 
-    private function _addRow($row)
-    {
-        $cells = "";
-        foreach ($row as $k => $v) {
-            $cells .= "<Cell><Data ss:Type=\"String\">" . $v . "</Data></Cell>\n";
-        }
-        return "<Row>\n" . $cells . "</Row>\n";
-    }
-
     private function _charset($data)
     {
         if (!$data) {
@@ -788,6 +795,15 @@ class Excel
             return $data;
         }
         return iconv('utf-8', 'gbk', $data);
+    }
+
+    private function _addRow($row)
+    {
+        $cells = "";
+        foreach ($row as $k => $v) {
+            $cells .= "<Cell><Data ss:Type=\"String\">" . $v . "</Data></Cell>\n";
+        }
+        return "<Row>\n" . $cells . "</Row>\n";
     }
 
 }
