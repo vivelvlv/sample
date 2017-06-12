@@ -467,9 +467,6 @@ class SampleServiceController extends BaseController
             array_push($data, [$time, $sample_name, $serivce_name, $status, $user_name, $note]);
         }
 
-        var_dump($data);
-
-        die(0);
 
         $exec->download($data, time() . "");
     }
