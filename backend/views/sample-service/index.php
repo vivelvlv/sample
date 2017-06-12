@@ -137,7 +137,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'sample_comment',
                 'value' => 'sample.comment',
-                'label' => Yii::t('common', "Sample Comment")
+                'label' => Yii::t('backend', "Sample Comment")
             ],
 
             ['class' => 'kartik\grid\ActionColumn',
