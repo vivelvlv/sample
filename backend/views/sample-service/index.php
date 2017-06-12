@@ -133,6 +133,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterInputOptions' => ['placeholder' => ' '],
                 'format' => 'raw',
             ],
+
+            [
+                'attribute' => 'sample_comment',
+                'value' => 'sample.comment',
+                'visible' => true
+            ],
+
             ['class' => 'kartik\grid\ActionColumn',
                 'template' => '{view} &nbsp;&nbsp;&nbsp;{complainlist}',
                 'buttons' => [
