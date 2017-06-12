@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]),
                 'hAlign' => 'left',
                 'vAlign' => 'middle',
-                'width' => '10%',
+                'width' => '15%',
             ],
             [
                 'attribute' => 'sample_id',
