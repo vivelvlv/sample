@@ -97,8 +97,7 @@ class SampleService extends \yii\db\ActiveRecord
             'barcode' => Yii::t('common', 'Barcode'),
             'barcodes' => Yii::t('common', 'Barcode'),
             'deliver_barcodes' => Yii::t('common', 'Barcode'),
-            'fetch_barcodes' => Yii::t('common', 'Fetching Barcodes'),
-            'sample_comment' => Yii::t('common', 'Sample Comment')
+            'fetch_barcodes' => Yii::t('common', 'Fetching Barcodes')
         ];
     }
 
