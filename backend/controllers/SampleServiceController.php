@@ -467,6 +467,10 @@ class SampleServiceController extends BaseController
             array_push($data, [$time, $sample_name, $serivce_name, $status, $user_name, $note]);
         }
 
+        var_dump($data);
+
+        die(0);
+
         $exec->download($data, time() . "");
     }
 
@@ -767,9 +771,9 @@ class Excel
     {
 
         $fileName = $this->_charset($fileName);
-        header("Content-Type: application/vnd.ms-excel; charset=gbk");
+        header("Content-Type: application/vnd.ms-excel; charset=utf-8");
         header("Content-Disposition: inline; filename=\"" . $fileName . ".xls\"");
-        echo "<?xml version=\"1.0\" encoding=\"gbk\"?>\n
+        echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n
             <Workbook xmlns=\"urn:schemas-microsoft-com:office:spreadsheet\"
             xmlns:x=\"urn:schemas-microsoft-com:office:excel\"
             xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\"
@@ -793,13 +797,14 @@ class Excel
         if (!$data) {
             return false;
         }
+        return $data;
         if (is_array($data)) {
             foreach ($data as $k => $v) {
                 $data[$k] = $this->_charset($v);
             }
             return $data;
         }
-        return iconv('utf-8', 'gbk', $data);
+        return iconv('utf-8', 'gbk//IGNORE', $data);
     }
 
     private function _addRow($row)
