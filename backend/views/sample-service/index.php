@@ -61,11 +61,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]),
                 'hAlign' => 'left',
                 'vAlign' => 'middle',
+                'width' => '10%',
             ],
             [
                 'attribute' => 'sample_id',
                 'value' => 'sample.name',
-                'visible' => true
+                'visible' => true,
+                'width' => '15%',
             ],
 //            [
 //                'label' => Yii::t('backend', 'Sample Code'),
@@ -84,6 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'filterInputOptions' => ['placeholder' => ' '],
                 'format' => 'raw',
+                'width' => '15%',
             ],
             [
                 'attribute' => 'status',
@@ -97,7 +100,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'filterInputOptions' => ['placeholder' => ' '],
                 'format' => 'raw',
-                'width' => '15%',
+                'width' => '10%',
             ],
             [
                 'attribute' => 'document',
@@ -116,14 +119,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         return '';
                     }
                 },
-                'width' => '20%',
+                'width' => '10%',
                 'format' => 'raw'
             ],
 
             [
                 'attribute' => 'user_id',
                 'vAlign' => 'middle',
-                'width' => '15%',
+                'width' => '10%',
                 'value' => 'user.user_name',
                 'filterType' => GridView::FILTER_SELECT2,
                 'filter' => User::userAttributeLabel(),
@@ -137,7 +140,8 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'sample_comment',
                 'value' => 'sample.comment',
-                'label' => Yii::t('backend', "Sample Comment")
+                'label' => Yii::t('backend', "Sample Comment"),
+                'width' => '10%',
             ],
 
             ['class' => 'kartik\grid\ActionColumn',
