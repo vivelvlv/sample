@@ -152,5 +152,5 @@ return [
     'complete' => '完成',
     'in progress' => '进行中',
     'not start' => '未开始',
-    'Sample & Serial Number' => '样品名/编号'
+    'Sample & Serial Number' => '样品名/编号',
 ];
