@@ -103,10 +103,11 @@ class SampleServiceSearch extends SampleService
                 $query->andFilterWhere(['in', SampleService::tableName() . '.barcode', $barcodeArray]);
             }
         }
+        if (!$this->IsNullOrEmptyString($this->test_sheet_id)) {
+            $query->andFilterWhere(['like', TestSheet::tableName() . '.name', $this->test_sheet_id]);
+        }
 
-        $query->andFilterWhere(['like', TestSheet::tableName() . '.name', $this->test_sheet_id]);
-
-        if (isset($this->sample_id)) {
+        if (!$this->IsNullOrEmptyString($this->sample_id)) {
             $sampleList = Sample::find()->select(['id'])->andFilterWhere(['like', "name", $this->sample_id])->
             orFilterWhere(['like', "serial_number", $this->sample_id])->asArray()->all();
             $arrayList = [];
